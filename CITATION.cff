@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: "Can a Language Model Write Like an Economist?"
+message: "If you use this replication package or code, please cite the working paper."
+type: software
+authors:
+  - family-names: Kansoy
+    given-names: Fatih
+    affiliation: University of Oxford
+date-released: 2026-11-19
+url: "https://fatih.ai/ai_economist.pdf"
+repository-code: "https://github.com/kansoy/ai-economist"
+license: MIT

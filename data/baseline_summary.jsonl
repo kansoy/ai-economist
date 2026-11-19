@@ -1,0 +1,8 @@
+{"cond": "D", "judge": "gpt-6.1-sol", "set": "clean2026", "fooled": 19, "n": 274, "rate": 6.9, "ci95": [3.5, 11.2], "numbers_kept": 137, "paragraphs": 137, "len_ratio": 1.0}
+{"cond": "D", "judge": "gpt-6.1-sol", "set": "pre2023", "fooled": 0, "n": 108, "rate": 0.0, "ci95": [0.0, 0.0], "numbers_kept": 54, "paragraphs": 54, "len_ratio": 1.0}
+{"cond": "D", "judge": "claude-opus-5-5", "set": "clean2026", "fooled": 23, "n": 274, "rate": 8.4, "ci95": [4.3, 13.1], "numbers_kept": 137, "paragraphs": 137, "len_ratio": 1.0}
+{"cond": "D", "judge": "claude-opus-5-5", "set": "pre2023", "fooled": 0, "n": 108, "rate": 0.0, "ci95": [0.0, 0.0], "numbers_kept": 54, "paragraphs": 54, "len_ratio": 1.0}
+{"cond": "R", "judge": "gpt-6.1-sol", "set": "clean2026", "fooled": 58, "n": 274, "rate": 21.2, "ci95": [15.2, 28.3], "numbers_kept": 136, "paragraphs": 137, "len_ratio": 1.049}
+{"cond": "R", "judge": "gpt-6.1-sol", "set": "pre2023", "fooled": 2, "n": 108, "rate": 1.9, "ci95": [0.0, 4.7], "numbers_kept": 45, "paragraphs": 54, "len_ratio": 1.029}
+{"cond": "R", "judge": "claude-opus-5-5", "set": "clean2026", "fooled": 21, "n": 274, "rate": 7.7, "ci95": [4.0, 11.8], "numbers_kept": 136, "paragraphs": 137, "len_ratio": 1.049}
+{"cond": "R", "judge": "claude-opus-5-5", "set": "pre2023", "fooled": 1, "n": 108, "rate": 0.9, "ci95": [0.0, 2.8], "numbers_kept": 45, "paragraphs": 54, "len_ratio": 1.029}

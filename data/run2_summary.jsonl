@@ -1,0 +1,12 @@
+{"step": 0, "judge": "gpt-6.1-sol", "set": "clean2026", "fooled": 107, "n": 274, "rate": 39.1, "ci95": [31.6, 46.7], "numbers_kept": 137, "paragraphs": 137, "papers": 59, "len_ratio": 1.027, "unanswered": 0}
+{"step": 0, "judge": "gpt-6.1-sol", "set": "pre2023", "fooled": 5, "n": 108, "rate": 4.6, "ci95": [0.9, 9.3], "numbers_kept": 44, "paragraphs": 54, "papers": 53, "len_ratio": 1.027, "unanswered": 0}
+{"step": 0, "judge": "claude-opus-5-5", "set": "clean2026", "fooled": 113, "n": 274, "rate": 41.2, "ci95": [34.1, 48.4], "numbers_kept": 137, "paragraphs": 137, "papers": 59, "len_ratio": 1.027, "unanswered": 0}
+{"step": 0, "judge": "claude-opus-5-5", "set": "pre2023", "fooled": 7, "n": 108, "rate": 6.5, "ci95": [1.9, 12.3], "numbers_kept": 44, "paragraphs": 54, "papers": 53, "len_ratio": 1.027, "unanswered": 0}
+{"step": 50, "judge": "gpt-6.1-sol", "set": "clean2026", "fooled": 165, "n": 274, "rate": 60.2, "ci95": [53.0, 67.3], "numbers_kept": 136, "paragraphs": 137, "papers": 59, "len_ratio": 1.023, "unanswered": 0}
+{"step": 50, "judge": "gpt-6.1-sol", "set": "pre2023", "fooled": 15, "n": 108, "rate": 13.9, "ci95": [6.6, 21.7], "numbers_kept": 50, "paragraphs": 54, "papers": 53, "len_ratio": 1.04, "unanswered": 0}
+{"step": 50, "judge": "claude-opus-5-5", "set": "clean2026", "fooled": 137, "n": 274, "rate": 50.0, "ci95": [42.4, 57.9], "numbers_kept": 136, "paragraphs": 137, "papers": 59, "len_ratio": 1.023, "unanswered": 0}
+{"step": 50, "judge": "claude-opus-5-5", "set": "pre2023", "fooled": 17, "n": 108, "rate": 15.7, "ci95": [8.5, 23.2], "numbers_kept": 50, "paragraphs": 54, "papers": 53, "len_ratio": 1.04, "unanswered": 0}
+{"step": 69, "judge": "gpt-6.1-sol", "set": "clean2026", "fooled": 187, "n": 274, "rate": 68.2, "ci95": [60.3, 75.9], "numbers_kept": 137, "paragraphs": 137, "papers": 59, "len_ratio": 1.032, "unanswered": 0}
+{"step": 69, "judge": "gpt-6.1-sol", "set": "pre2023", "fooled": 28, "n": 108, "rate": 25.9, "ci95": [15.7, 37.7], "numbers_kept": 49, "paragraphs": 54, "papers": 53, "len_ratio": 1.046, "unanswered": 0}
+{"step": 69, "judge": "claude-opus-5-5", "set": "clean2026", "fooled": 149, "n": 274, "rate": 54.4, "ci95": [46.3, 62.5], "numbers_kept": 137, "paragraphs": 137, "papers": 59, "len_ratio": 1.032, "unanswered": 0}
+{"step": 69, "judge": "claude-opus-5-5", "set": "pre2023", "fooled": 27, "n": 108, "rate": 25.0, "ci95": [15.5, 35.8], "numbers_kept": 49, "paragraphs": 54, "papers": 53, "len_ratio": 1.046, "unanswered": 0}

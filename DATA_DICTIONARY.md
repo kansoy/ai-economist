@@ -8,7 +8,7 @@ Structural metadata for the 191 test records (137 paragraphs from 59 working pap
 - `paper` (string): Paper cluster identifier used for paper-clustered bootstrap resampling.
 - `set` (string): Benchmark cohort (`clean2026` or `pre2023`).
 - `draft_words` (int): Word count of the GPT-6.1 Sol input draft.
-- `run1_words`, `run2_words` (object): Word counts of revised paragraphs keyed by training step (`0`, `50`, `72` for Run 1; `0`, `50`, `69` for Run 2).
+- `run1_words`, `run2_words` (object): Word counts of revised paragraphs keyed by training step (`0`, `50`, `72` for Run 1; `0`, `50`, `69` for Run 2). The equal-length check in `code/01_main_results.py` (Table 2, Panel C) keeps paragraphs within 5% of Step 0 supervised revision length (`|log(final / step_0)| <= log(1.05)`: 124 paragraphs in Run 1, 135 in Run 2).
 - `run1_numbers_kept`, `run2_numbers_kept` (object): Boolean indicator of whether every number in the draft is preserved in the revision, keyed by training step.
 
 ## `run1_verdicts.jsonl`, `run2_verdicts.jsonl` (2,292 rows each) & `baseline_verdicts.jsonl` (1,528 rows)
@@ -30,7 +30,7 @@ Cohort-level summary statistics per judge and step/condition used directly by Fi
 ## `fidelity_annotations.jsonl` (1,910 rows)
 Blind content-fidelity ratings across 191 paragraphs × 5 versions × 2 annotators (`gpt-6.1-sol`, `claude-opus-5-5`).
 - `id` (string): Paragraph record identifier.
-- `version` (string): Version code (`A` authors' paragraph, `B` supervised writer, `C` adversarial Run 1, `D` adversarial Run 2, `E` prompted Opus).
+- `version` (string): Version code (`A` authors' paragraph, `B` supervised writer, run 1, `C` adversarial Run 1, `D` adversarial Run 2, `E` prompted Opus with writing guide). Run 2's supervised output was not separately annotated, so both `C-B` and `D-B` in Table A2 compare against Run 1's supervised writer (`B`).
 - `annotator` (string): Blind annotator model.
 - `verdict` (string): Overall fidelity call (`same`, `minor`, or `major`).
 - `dropped`, `added`, `hedge`, `entity`, `meaning` (int): Count of flagged differences in each category.

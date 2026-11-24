@@ -11,7 +11,7 @@ OUT = ROOT / "output" / "tables"
 ANNOTATORS = ["gpt-6.1-sol", "claude-opus-5-5"]
 VERSIONS = {
     "A": "Authors' paragraph",
-    "B": "Supervised writer",
+    "B": "Supervised writer, run 1",
     "C": "Adversarial, run 1",
     "D": "Adversarial, run 2",
     "E": "Prompted Opus",

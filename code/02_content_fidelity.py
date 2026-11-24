@@ -160,6 +160,63 @@ def main():
         writer.writeheader()
         writer.writerows(csv_rows)
 
+    joint_rows = [
+        {
+            "panel": "Panel A (diff)",
+            "row": "Run 1 minus supervised (points)",
+            "gpt-6.1-sol_value": results["major"]["C-B|gpt-6.1-sol"]["diff"],
+            "gpt-6.1-sol_lo": results["major"]["C-B|gpt-6.1-sol"]["lo"],
+            "gpt-6.1-sol_hi": results["major"]["C-B|gpt-6.1-sol"]["hi"],
+            "claude-opus-5-5_value": results["major"]["C-B|claude-opus-5-5"]["diff"],
+            "claude-opus-5-5_lo": results["major"]["C-B|claude-opus-5-5"]["lo"],
+            "claude-opus-5-5_hi": results["major"]["C-B|claude-opus-5-5"]["hi"],
+        },
+        {
+            "panel": "Panel A (diff)",
+            "row": "Run 2 minus run 1 supervised (points)",
+            "gpt-6.1-sol_value": results["major"]["D-B|gpt-6.1-sol"]["diff"],
+            "gpt-6.1-sol_lo": results["major"]["D-B|gpt-6.1-sol"]["lo"],
+            "gpt-6.1-sol_hi": results["major"]["D-B|gpt-6.1-sol"]["hi"],
+            "claude-opus-5-5_value": results["major"]["D-B|claude-opus-5-5"]["diff"],
+            "claude-opus-5-5_lo": results["major"]["D-B|claude-opus-5-5"]["lo"],
+            "claude-opus-5-5_hi": results["major"]["D-B|claude-opus-5-5"]["hi"],
+        },
+        {
+            "panel": "Panel B (joint)",
+            "row": "Supervised writer, run 1",
+            "gpt-6.1-sol_value": results["joint"]["B|gpt-6.1-sol"],
+            "gpt-6.1-sol_lo": "",
+            "gpt-6.1-sol_hi": "",
+            "claude-opus-5-5_value": results["joint"]["B|claude-opus-5-5"],
+            "claude-opus-5-5_lo": "",
+            "claude-opus-5-5_hi": "",
+        },
+        {
+            "panel": "Panel B (joint)",
+            "row": "Adversarial writer, run 1",
+            "gpt-6.1-sol_value": results["joint"]["C|gpt-6.1-sol"],
+            "gpt-6.1-sol_lo": "",
+            "gpt-6.1-sol_hi": "",
+            "claude-opus-5-5_value": results["joint"]["C|claude-opus-5-5"],
+            "claude-opus-5-5_lo": "",
+            "claude-opus-5-5_hi": "",
+        },
+        {
+            "panel": "Panel B (joint)",
+            "row": "Gain (points)",
+            "gpt-6.1-sol_value": results["joint"]["gain_joint|gpt-6.1-sol"]["diff"],
+            "gpt-6.1-sol_lo": results["joint"]["gain_joint|gpt-6.1-sol"]["lo"],
+            "gpt-6.1-sol_hi": results["joint"]["gain_joint|gpt-6.1-sol"]["hi"],
+            "claude-opus-5-5_value": results["joint"]["gain_joint|claude-opus-5-5"]["diff"],
+            "claude-opus-5-5_lo": results["joint"]["gain_joint|claude-opus-5-5"]["lo"],
+            "claude-opus-5-5_hi": results["joint"]["gain_joint|claude-opus-5-5"]["hi"],
+        },
+    ]
+    with open(OUT / "tableA2_joint.csv", "w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(joint_rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(joint_rows)
+
     g_gain = results["joint"]["gain_joint|gpt-6.1-sol"]
     o_gain = results["joint"]["gain_joint|claude-opus-5-5"]
     print(

@@ -128,13 +128,89 @@ def evaluate_run(metadata, verdicts, word_key, kept_key, final_step):
     return results
 
 
+def evaluate_baselines(metadata, verdicts):
+    judges = sorted({row["judge"] for row in verdicts if row["pick"] != "?"})
+    conds = {"D": "GPT draft", "R": "Guided Opus"}
+    votes = collections.defaultdict(int)
+    totals = collections.defaultdict(int)
+    for row in verdicts:
+        if row["pick"] == "?":
+            continue
+        key = (row["cond"], row["judge"], row["id"])
+        votes[key] += int(row["pick"] == "T")
+        totals[key] += 1
+
+    def paper_of(item_id):
+        return metadata[item_id]["paper"]
+
+    def rate(ids, cond, selected_judges):
+        num = sum(votes[(cond, judge, item_id)] for judge in selected_judges for item_id in ids)
+        den = sum(totals[(cond, judge, item_id)] for judge in selected_judges for item_id in ids)
+        return 100.0 * num / den if den else float("nan")
+
+    def bootstrap_ci(ids, cond, selected_judges, reps=4000, seed=1):
+        by_paper = collections.defaultdict(list)
+        for item_id in ids:
+            by_paper[paper_of(item_id)].append(item_id)
+        papers = sorted(by_paper)
+        rng = random.Random(seed)
+        draws = []
+        for _ in range(reps):
+            sample = [item_id for paper in (rng.choice(papers) for _ in papers) for item_id in by_paper[paper]]
+            value = rate(sample, cond, selected_judges)
+            if not math.isnan(value):
+                draws.append(value)
+        draws.sort()
+        return round(draws[int(0.025 * len(draws))], 1), round(draws[int(0.975 * len(draws)) - 1], 1)
+
+    out = {}
+    for cond, label in conds.items():
+        out[cond] = {"label": label, "cohorts": {}}
+        for cohort in ("clean2026", "pre2023", "all"):
+            ids = [item_id for item_id, row in metadata.items() if cohort in ("all", row["set"])]
+            cohort_res = {"paragraphs": len(ids), "judges": {}}
+            for selected in [[judge] for judge in judges] + [judges]:
+                key = selected[0] if len(selected) == 1 else "both"
+                lo, hi = bootstrap_ci(ids, cond, selected)
+                cohort_res["judges"][key] = {
+                    "rate": round(rate(ids, cond, selected), 1),
+                    "ci95": [lo, hi],
+                }
+            out[cond]["cohorts"][cohort] = cohort_res
+    return out
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     metadata = {row["id"]: row for row in read_jsonl(DATA / "test_metadata.jsonl")}
+    baselines = evaluate_baselines(metadata, read_jsonl(DATA / "baseline_verdicts.jsonl"))
     run1 = evaluate_run(metadata, read_jsonl(DATA / "run1_verdicts.jsonl"), "run1_words", "run1_numbers_kept", 72)
     run2 = evaluate_run(metadata, read_jsonl(DATA / "run2_verdicts.jsonl"), "run2_words", "run2_numbers_kept", 69)
-    summary = {"run_1": run1, "run_2": run2}
+    summary = {"baselines": baselines, "run_1": run1, "run_2": run2}
     (OUT / "main_results.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+
+    baseline_csv = []
+    for cond in ("D", "R"):
+        for cohort in ("clean2026", "pre2023", "all"):
+            cohort_data = baselines[cond]["cohorts"][cohort]
+            for judge in ("gpt-6.1-sol", "claude-opus-5-5", "both"):
+                cell = cohort_data["judges"][judge]
+                baseline_csv.append(
+                    {
+                        "cond": cond,
+                        "label": baselines[cond]["label"],
+                        "cohort": cohort,
+                        "paragraphs": cohort_data["paragraphs"],
+                        "judge": judge,
+                        "rate": cell["rate"],
+                        "ci_lo": cell["ci95"][0],
+                        "ci_hi": cell["ci95"][1],
+                    }
+                )
+    with open(OUT / "baselines.csv", "w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(baseline_csv[0].keys()))
+        writer.writeheader()
+        writer.writerows(baseline_csv)
 
     csv_rows = []
     for run_name, run_data in (("run_1", run1), ("run_2", run2)):
@@ -178,6 +254,12 @@ def main():
         writer.writeheader()
         writer.writerows(csv_rows)
 
+    d26 = baselines["D"]["cohorts"]["clean2026"]["judges"]
+    r26 = baselines["R"]["cohorts"]["clean2026"]["judges"]
+    print(
+        f"Baselines (2026): GPT draft = {d26['gpt-6.1-sol']['rate']}% GPT / {d26['claude-opus-5-5']['rate']}% Opus; "
+        f"Guided Opus = {r26['gpt-6.1-sol']['rate']}% GPT / {r26['claude-opus-5-5']['rate']}% Opus"
+    )
     for run_name, run_data in (("Run 1", run1), ("Run 2", run2)):
         overall = run_data["cohorts"]["all"]["judges"]["both"]
         eq = run_data["cohorts"]["all"]["equal_length"]
